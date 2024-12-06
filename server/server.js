@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-// const authRouter = require('./routes/auth/auth-routes');
+const authRouter = require('./routes/auth/auth-routes.js');
 // const adminProductsRouter = require('./routes/admin/products-routes');
 // const adminOrderRouter = require('./routes/admin/order-routes');
 
@@ -34,7 +34,7 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
-// app.use('/api/auth', authRouter);
+app.use('/api/auth', authRouter);
 // app.use('/api/admin/products', adminProductsRouter);
 // app.use('/api/admin/orders', adminOrderRouter);
 
