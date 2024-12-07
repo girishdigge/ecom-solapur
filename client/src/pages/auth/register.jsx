@@ -22,8 +22,14 @@ const Register = () => {
       if (data?.payload?.success) {
         toast({
           title: data?.payload?.message,
+          variant: 'success',
         });
         navigate('/auth/login');
+      } else {
+        toast({
+          title: data?.payload?.message,
+          variant: 'destructive',
+        });
       }
     });
   }
