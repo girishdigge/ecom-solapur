@@ -32,7 +32,7 @@ function App() {
   if (isLoading)
     return (
       <div>
-        <Skeleton className='w-full h-[600px] rounded-full' />
+        <Skeleton className='w-[600px] h-[600px] rounded-full' />
       </div>
     );
   return (
