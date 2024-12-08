@@ -1,8 +1,9 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const path = require('path');
 const authRouter = require('./routes/auth/auth-routes.js');
-// const adminProductsRouter = require('./routes/admin/products-routes');
+const adminProductsRouter = require('./routes/admin/products-routes.js');
 // const adminOrderRouter = require('./routes/admin/order-routes');
 
 // const shopProductsRouter = require('./routes/shop/products-routes');
@@ -35,7 +36,8 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use('/api/auth', authRouter);
-// app.use('/api/admin/products', adminProductsRouter);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/admin/products', adminProductsRouter);
 // app.use('/api/admin/orders', adminOrderRouter);
 
 // app.use('/api/shop/products', shopProductsRouter);
