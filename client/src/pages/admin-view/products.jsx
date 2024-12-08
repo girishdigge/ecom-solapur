@@ -8,7 +8,10 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { addProductFormElements } from '@/config';
-import { Fragment, useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { addNewProduct, fetchAllProducts } from '@/store/admin/products-slice';
+import { Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const initialFormData = {
   image: null,
@@ -27,9 +30,34 @@ const AdminProducts = () => {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState('');
   const [imageLoadingState, setImageLoadingState] = useState(false);
-  function onSubmit() {
-    console.log(formData, 'formData');
+  const { productList } = useSelector((state) => state.adminProducts);
+  const dispatch = useDispatch();
+  const { toast } = useToast();
+  function onSubmit(event) {
+    event.preventDefault();
+    dispatch(
+      addNewProduct({
+        ...formData,
+        image: uploadedImageUrl,
+      })
+    ).then((data) => {
+      console.log(data);
+      if (data?.payload?.success) {
+        dispatch(fetchAllProducts());
+        setOpenCreateProductsDialog(false);
+        setImageFile(null);
+        setFormData(initialFormData);
+        toast({
+          variant: 'success',
+          title: 'Product added Successfully',
+        });
+      }
+    });
   }
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
+
   return (
     <Fragment>
       <div className='mb-5 w-full  flex justify-end'>
@@ -54,6 +82,7 @@ const AdminProducts = () => {
             uploadedImageUrl={uploadedImageUrl}
             setUploadedImageUrl={setUploadedImageUrl}
             setImageLoadingState={setImageLoadingState}
+            imageLoadingState={imageLoadingState}
           />
           <div className='py-6'>
             <CommonForm

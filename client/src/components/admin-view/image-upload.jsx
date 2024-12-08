@@ -4,6 +4,7 @@ import { Label } from '../ui/label';
 import { FileIcon, UploadCloudIcon, XIcon } from 'lucide-react';
 import { Button } from '../ui/button';
 import axios from 'axios';
+import { Skeleton } from '../ui/skeleton';
 
 const ProductImageUpload = ({
   imageFile,
@@ -11,6 +12,7 @@ const ProductImageUpload = ({
   uploadedImageUrl,
   setUploadedImageUrl,
   setImageLoadingState,
+  imageLoadingState,
 }) => {
   const inputRef = useRef(null);
 
@@ -48,7 +50,7 @@ const ProductImageUpload = ({
     );
 
     if (response?.data?.imageUrl) {
-      setUploadedImageUrl(response.data);
+      setUploadedImageUrl(response.data.imageUrl);
       setImageLoadingState(false);
     }
   }
@@ -81,6 +83,8 @@ const ProductImageUpload = ({
               ( Limit file size to 1 MB )
             </span>
           </Label>
+        ) : imageLoadingState ? (
+          <Skeleton className='bg-gray-100 h-10' />
         ) : (
           <div className='flex item-center justify-between'>
             <div className='flex items-center '>

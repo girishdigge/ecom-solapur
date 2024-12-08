@@ -33,6 +33,7 @@ const addProduct = async (req, res) => {
       salePrice,
       totalStock,
     } = req.body;
+    console.log(image);
 
     const newlyCreatedProduct = await Product.create({
       image,
